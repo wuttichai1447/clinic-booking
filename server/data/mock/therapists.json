@@ -1,0 +1,7 @@
+[
+  {"id":"therapist-1","name":"คุณสมชาย ใจดี","specialty":"นวดบำบัด","clinicId":"clinic-1","image":"https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop"},
+  {"id":"therapist-2","name":"คุณสมหญิง รักสุขภาพ","specialty":"กายภาพบำบัด","clinicId":"clinic-1","image":"https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&h=200&fit=crop"},
+  {"id":"therapist-3","name":"คุณวิชัย หมอนวด","specialty":"นวดคลายกล้ามเนื้อ","clinicId":"clinic-2","image":"https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=200&h=200&fit=crop"},
+  {"id":"therapist-4","name":"คุณมานี มีสุข","specialty":"กายภาพบำบัด","clinicId":"clinic-2","image":"https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop"},
+  {"id":"therapist-5","name":"คุณประพันธ์ สุขใจ","specialty":"นวดบำบัด","clinicId":"clinic-3","image":"https://images.unsplash.com/photo-1612531386530-97286d97c610?w=200&h=200&fit=crop"}
+]

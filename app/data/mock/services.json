@@ -1,0 +1,37 @@
+[
+  {
+    "id": "service-1",
+    "name": "นวดบำบัด",
+    "duration": 60,
+    "price": 800,
+    "clinicId": null
+  },
+  {
+    "id": "service-2",
+    "name": "กายภาพบำบัด บริเวณคอและไหล่",
+    "duration": 45,
+    "price": 1200,
+    "clinicId": null
+  },
+  {
+    "id": "service-3",
+    "name": "กายภาพบำบัด บริเวณหลัง",
+    "duration": 60,
+    "price": 1500,
+    "clinicId": null
+  },
+  {
+    "id": "service-4",
+    "name": "นวดคลายกล้ามเนื้อ",
+    "duration": 90,
+    "price": 2000,
+    "clinicId": null
+  },
+  {
+    "id": "service-5",
+    "name": "การรักษาด้วยคลื่นเสียง",
+    "duration": 30,
+    "price": 500,
+    "clinicId": null
+  }
+]

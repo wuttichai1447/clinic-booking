@@ -1,0 +1,32 @@
+[
+  {
+    "id": "therapist-1",
+    "name": "คุณสมชาย ใจดี",
+    "specialty": "นวดบำบัด",
+    "clinicId": "clinic-1"
+  },
+  {
+    "id": "therapist-2",
+    "name": "คุณสมหญิง รักสุขภาพ",
+    "specialty": "กายภาพบำบัด",
+    "clinicId": "clinic-1"
+  },
+  {
+    "id": "therapist-3",
+    "name": "คุณวิชัย หมอนวด",
+    "specialty": "นวดคลายกล้ามเนื้อ",
+    "clinicId": "clinic-2"
+  },
+  {
+    "id": "therapist-4",
+    "name": "คุณมานี มีสุข",
+    "specialty": "กายภาพบำบัด",
+    "clinicId": "clinic-2"
+  },
+  {
+    "id": "therapist-5",
+    "name": "คุณประพันธ์ สุขใจ",
+    "specialty": "นวดบำบัด",
+    "clinicId": "clinic-3"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {"id":"service-1","name":"นวดบำบัด","duration":60,"price":800,"clinicId":null,"image":"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=200&fit=crop"},
+  {"id":"service-2","name":"กายภาพบำบัด บริเวณคอและไหล่","duration":45,"price":1200,"clinicId":null,"image":"https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=200&fit=crop"},
+  {"id":"service-3","name":"กายภาพบำบัด บริเวณหลัง","duration":60,"price":1500,"clinicId":null,"image":"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=200&fit=crop"},
+  {"id":"service-4","name":"นวดคลายกล้ามเนื้อ","duration":90,"price":2000,"clinicId":null,"image":"https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=200&fit=crop"},
+  {"id":"service-5","name":"การรักษาด้วยคลื่นเสียง","duration":30,"price":500,"clinicId":null,"image":"https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=200&fit=crop"}
+]

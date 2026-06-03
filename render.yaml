@@ -1,0 +1,37 @@
+# Laravel API + Admin — โฮสต์ฟรีบน Render (คู่กับ Vercel สำหรับ Nuxt)
+# สร้าง PostgreSQL ฟรีที่ https://neon.tech แล้วใส่ DATABASE_URL ใน Environment
+services:
+  - type: web
+    name: clinic-booking-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: CACHE_STORE
+        value: database
+      - key: SESSION_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: CRON_KEY
+        generateValue: true
+      - key: BOOKING_REMINDERS_ENABLED
+        value: "true"

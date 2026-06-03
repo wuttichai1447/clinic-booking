@@ -1,0 +1,61 @@
+{
+  "name": "booking/clinic-api",
+  "type": "project",
+  "description": "Laravel API + Admin for Clinic Booking",
+  "require": {
+    "php": "^8.2",
+    "ext-zip": "*",
+    "laravel/framework": "^11.31",
+    "laravel/sanctum": "^4.0",
+    "laravel/socialite": "^5.27",
+    "stripe/stripe-php": "^16.0"
+  },
+  "suggest": {
+    "filament/filament": "Admin panel (/admin) — ต้องเปิด extension=intl ใน php.ini ก่อน: composer require filament/filament:^3.3"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.23",
+    "laravel/pint": "^1.13",
+    "mockery/mockery": "^1.6",
+    "phpunit/phpunit": "^11.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi"
+    ],
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "@php artisan key:generate --ansi",
+      "@php artisan migrate --seed --force"
+    ],
+    "test": "phpunit"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true
+    },
+    "audit": {
+      "block-insecure": false
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
