@@ -30,8 +30,16 @@ return Application::configure(basePath: dirname(__DIR__))
 
                     $adminProbe = 'skipped';
                     try {
+                        $wasDebug = config('app.debug');
+                        config(['app.debug' => true]);
                         $probeRequest = \Illuminate\Http\Request::create('/admin', 'GET');
-                        $adminProbe = app()->handle($probeRequest)->getStatusCode();
+                        $probeResponse = app()->handle($probeRequest);
+                        config(['app.debug' => $wasDebug]);
+                        if ($probeResponse->getStatusCode() === 500) {
+                            $adminProbe = trim(preg_replace('/\s+/', ' ', strip_tags(substr($probeResponse->getContent(), 0, 400))));
+                        } else {
+                            $adminProbe = $probeResponse->getStatusCode();
+                        }
                     } catch (\Throwable $e) {
                         $adminProbe = $e->getMessage();
                     }
