@@ -14,7 +14,7 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 COPY . .
 RUN composer dump-autoload --optimize --no-scripts \
     && mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/logs bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 777 storage bootstrap/cache
 
 ENV PORT=8000
 EXPOSE 8000

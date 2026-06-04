@@ -29,7 +29,7 @@ services:
       - key: DB_SSLMODE
         value: require
       - key: CACHE_STORE
-        value: file
+        value: array
       - key: SESSION_DRIVER
         value: file
       - key: QUEUE_CONNECTION

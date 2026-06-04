@@ -4,7 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
-    'default' => env('CACHE_STORE', 'file'),
+    'default' => env('CACHE_STORE', 'array'),
 
     'stores' => [
 
