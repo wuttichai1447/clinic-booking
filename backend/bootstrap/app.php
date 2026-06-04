@@ -28,6 +28,14 @@ return Application::configure(basePath: dirname(__DIR__))
                         $sessionTest = $e->getMessage();
                     }
 
+                    $adminProbe = 'skipped';
+                    try {
+                        $probeRequest = \Illuminate\Http\Request::create('/admin', 'GET');
+                        $adminProbe = app()->handle($probeRequest)->getStatusCode();
+                    } catch (\Throwable $e) {
+                        $adminProbe = $e->getMessage();
+                    }
+
                     return response()->json([
                         'database' => 'ok',
                         'clinics' => Clinic::count(),
@@ -36,6 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),
                         'session_test' => $sessionTest,
+                        'admin_probe' => $adminProbe,
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([
