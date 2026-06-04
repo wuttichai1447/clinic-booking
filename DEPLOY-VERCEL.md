@@ -121,12 +121,14 @@ Render แผนฟรีไม่มี cron ในตัว — ใช้ [cro
 | อาการ | สาเหตุที่พบบ่อย |
 |--------|------------------|
 | `(index):1` **503** บน Vercel | Backend Render ยังไม่ Live หรือไม่ได้ตั้ง `NUXT_API_BACKEND` / `NUXT_LARAVEL_URL` |
+| API **500** แต่ `/up` ได้ 200 | มักเป็น cache/session ค่าเริ่มต้น `database` — โค้ดล่าสุดใช้ `file` แล้ว; ตรวจ `DATABASE_URL` บน Render |
 | Render **timeout** นานมาก | Deploy ล้ม (ดู **Logs**); เคยเกิดจาก `route:cache` + closure ใน `routes/web.php` |
 | `Node cannot be found...` | ข้อความ DevTools ของ Chrome — **ไม่ใช่สาเหตุหลัก** ให้โฟกัส HTTP 503 |
 
 **เช็คลำดับ:**
 
-1. Render → `clinic-booking-api` → สถานะ **Live** (ไม่ใช่ Failed deploy)
+1. Render → `clinic-booking-api` → สถานะ **Live** (ไม่ใช่ Failed deploy)  
+   > URL จริงอาจมี suffix เช่น `https://clinic-booking-api-r2o6.onrender.com` — ดูที่ Render Dashboard → **Settings → URL**
 2. เปิด `{RENDER_URL}/up` (URL จาก Render Dashboard) — ต้องได้ **200** (แผนฟรีรอ cold start ~30–60 วิ)
 3. Environment: `DATABASE_URL` = Neon **Direct** (ไม่ใช่ pooler), มี `?sslmode=require`
 4. Vercel → Environment ครบ 3 ตัว (`NUXT_PUBLIC_API_BASE`, `NUXT_API_BACKEND`, `NUXT_LARAVEL_URL`) แล้ว **Redeploy**

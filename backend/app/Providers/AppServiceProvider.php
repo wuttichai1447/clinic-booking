@@ -15,18 +15,16 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $databaseUrl = env('DATABASE_URL');
+        if (is_string($databaseUrl) && str_starts_with($databaseUrl, 'postgres://')) {
+            $normalized = 'postgresql://'.substr($databaseUrl, 11);
+            $_ENV['DATABASE_URL'] = $normalized;
+            putenv('DATABASE_URL='.$normalized);
+        }
     }
 
     public function boot(): void
     {
-        $databaseUrl = env('DATABASE_URL');
-        if (is_string($databaseUrl) && str_starts_with($databaseUrl, 'postgres://')) {
-            config([
-                'database.connections.pgsql.url' => 'postgresql://'.substr($databaseUrl, 11),
-            ]);
-        }
-
         Paginator::defaultView('vendor.pagination.admin');
 
         RateLimiter::for('api', function (Request $request) {

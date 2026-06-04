@@ -16,22 +16,6 @@ use App\Http\Controllers\Api\V1\StripeWebhookController;
 use App\Http\Controllers\Api\V1\TherapistController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/health/db', function () {
-    try {
-        \Illuminate\Support\Facades\DB::connection()->getPdo();
-
-        return response()->json([
-            'database' => 'ok',
-            'clinics' => \App\Models\Clinic::count(),
-        ]);
-    } catch (\Throwable $e) {
-        return response()->json([
-            'database' => 'error',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-});
-
 Route::prefix('v1')->group(function () {
     Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:auth');
     Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:auth');
