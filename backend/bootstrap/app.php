@@ -52,6 +52,10 @@ return Application::configure(basePath: dirname(__DIR__))
                         'cache_store' => config('cache.default'),
                         'session_test' => $sessionTest,
                         'app_key' => $appKeyStatus,
+                        'frontend_url' => config('app.frontend_url'),
+                        'frontend_ready' => filled(config('app.frontend_url'))
+                            && ! preg_match('#placeholder\.#i', (string) config('app.frontend_url'))
+                            && (! app()->environment('production') || ! preg_match('#localhost|127\.0\.0\.1#i', (string) config('app.frontend_url'))),
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([

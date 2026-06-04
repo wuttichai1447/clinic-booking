@@ -89,15 +89,25 @@
                     @endif
                 </a>
             @endforeach
-            <a
-                href="{{ config('app.frontend_url', 'http://localhost:3000') }}"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition"
-            >
-                <i data-lucide="external-link" class="size-4 shrink-0"></i>
-                หน้าลูกค้า
-            </a>
+            @if ($frontendReady ?? false)
+                <a
+                    href="{{ $frontendUrl }}"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition"
+                >
+                    <i data-lucide="external-link" class="size-4 shrink-0"></i>
+                    หน้าลูกค้า
+                </a>
+            @else
+                <span
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-500 cursor-not-allowed"
+                    title="ตั้ง FRONTEND_URL ใน Render เป็น URL จริงจาก Vercel (ตอนนี้: {{ $frontendUrl ?? '—' }})"
+                >
+                    <i data-lucide="external-link" class="size-4 shrink-0 opacity-50"></i>
+                    หน้าลูกค้า (ยังไม่ deploy)
+                </span>
+            @endif
             <form method="POST" action="{{ route('admin.logout') }}" class="sm:hidden mt-1 pt-2 border-t border-white/10 w-full">
                 @csrf
                 <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition">

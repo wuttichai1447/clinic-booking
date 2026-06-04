@@ -53,15 +53,24 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('admin.layout', function ($view) {
+            $frontendUrl = rtrim((string) config('app.frontend_url', ''), '/');
+            $frontendReady = filled($frontendUrl)
+                && ! preg_match('#placeholder\.#i', $frontendUrl)
+                && (! app()->environment('production') || ! preg_match('#localhost|127\.0\.0\.1#i', $frontendUrl));
+
             try {
                 $view->with([
                     'awaitingVerificationCount' => Appointment::where('status', 'awaiting_verification')->count(),
                     'unreadBookingNotificationsCount' => BookingNotification::whereNull('read_at')->count(),
+                    'frontendUrl' => $frontendUrl ?: 'http://localhost:3000',
+                    'frontendReady' => $frontendReady,
                 ]);
             } catch (\Throwable) {
                 $view->with([
                     'awaitingVerificationCount' => 0,
                     'unreadBookingNotificationsCount' => 0,
+                    'frontendUrl' => $frontendUrl ?: 'http://localhost:3000',
+                    'frontendReady' => $frontendReady,
                 ]);
             }
         });
