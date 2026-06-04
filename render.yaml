@@ -8,6 +8,7 @@ services:
     dockerContext: ./backend
     plan: free
     healthCheckPath: /up
+    preDeployCommand: php artisan migrate --force --no-interaction
     envVars:
       - key: APP_ENV
         value: production
@@ -25,6 +26,8 @@ services:
         sync: false
       - key: DB_CONNECTION
         value: pgsql
+      - key: DB_SSLMODE
+        value: require
       - key: CACHE_STORE
         value: database
       - key: SESSION_DRIVER

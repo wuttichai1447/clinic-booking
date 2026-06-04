@@ -3,15 +3,11 @@ set -e
 
 cd /app
 
-if [ -n "$DATABASE_URL" ]; then
-  echo "Running migrations..."
-  php artisan migrate --force --no-interaction
-fi
-
+# migrate runs via render.yaml preDeployCommand (faster health check on boot)
 php artisan storage:link 2>/dev/null || true
 
 php artisan config:cache
-php artisan route:cache
+# routes/web.php uses closures — route:cache would crash startup on Render
 php artisan view:cache
 
 echo "Starting server on port ${PORT:-8000}..."
