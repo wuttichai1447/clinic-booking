@@ -15,7 +15,9 @@
         @else
             <p class="text-sky-800 text-xs mb-4 bg-sky-50 border border-sky-200 rounded-lg px-3 py-2">
                 ใช้อีเมลและรหัสผ่านที่ตั้งใน <strong>Render → Environment</strong> (<code>ADMIN_EMAIL</code> / <code>ADMIN_PASSWORD</code>).
-                บัญชีแอดมินถูกสร้างอัตโนมัติตอน deploy — ถ้า login ไม่ได้ ให้ตรวจว่า env ตรงกับที่ใช้ login
+                @if (!empty($adminEmailHint))
+                    อีเมลแอดมินในระบบ: <strong>{{ $adminEmailHint }}</strong>
+                @endif
             </p>
         @endif
 
