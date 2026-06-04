@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             });
 
             Route::get('/admin/ping', fn () => response()->json(['admin' => 'ok']));
+            Route::get('/admin/login-test', fn () => view('admin.login'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
