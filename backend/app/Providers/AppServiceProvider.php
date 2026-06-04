@@ -28,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
         // Render free tier: never use database cache (breaks API rate limiting)
         config(['cache.default' => env('CACHE_STORE', 'array')]);
 
+        // DB is available on Render; use database sessions (file sessions failed on ephemeral disk)
+        if (env('DATABASE_URL')) {
+            config(['session.driver' => 'database']);
+        }
+
         Paginator::defaultView('vendor.pagination.admin');
 
         RateLimiter::for('api', function (Request $request) {
