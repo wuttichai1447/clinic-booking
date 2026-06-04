@@ -31,7 +31,7 @@ services:
       - key: CACHE_STORE
         value: array
       - key: SESSION_DRIVER
-        value: file
+        value: cookie
       - key: QUEUE_CONNECTION
         value: sync
       - key: CRON_KEY

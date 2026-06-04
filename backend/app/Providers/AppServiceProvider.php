@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Render free tier: never use database cache (breaks API rate limiting)
+        config(['cache.default' => env('CACHE_STORE', 'array')]);
+
         Paginator::defaultView('vendor.pagination.admin');
 
         RateLimiter::for('api', function (Request $request) {
@@ -40,10 +43,17 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('admin.layout', function ($view) {
-            $view->with([
-                'awaitingVerificationCount' => Appointment::where('status', 'awaiting_verification')->count(),
-                'unreadBookingNotificationsCount' => BookingNotification::whereNull('read_at')->count(),
-            ]);
+            try {
+                $view->with([
+                    'awaitingVerificationCount' => Appointment::where('status', 'awaiting_verification')->count(),
+                    'unreadBookingNotificationsCount' => BookingNotification::whereNull('read_at')->count(),
+                ]);
+            } catch (\Throwable) {
+                $view->with([
+                    'awaitingVerificationCount' => 0,
+                    'unreadBookingNotificationsCount' => 0,
+                ]);
+            }
         });
     }
 }

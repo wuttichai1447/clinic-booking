@@ -35,9 +35,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->redirectGuestsTo('/admin/login');
         $middleware->redirectUsersTo('/admin');
+        $middleware->throttleApi();
         // Public booking API is stateless JSON — no SPA session/CSRF on /api/v1/*
         $middleware->validateCsrfTokens(except: [
             'api/*',
+        ]);
+        $middleware->api(append: [
+            \App\Http\Middleware\AuditApiRequests::class,
         ]);
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
