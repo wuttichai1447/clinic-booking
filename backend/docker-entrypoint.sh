@@ -21,8 +21,8 @@ php artisan db:show 2>&1 || echo "WARN: database connection check failed (see lo
 echo "Running migrations..."
 php artisan migrate --force --no-interaction 2>&1 || echo "WARN: migrate failed (see logs above)"
 
-echo "Ensuring admin account exists..."
-php artisan db:seed --class=AdminUserSeeder --force --no-interaction 2>&1 || echo "WARN: AdminUserSeeder failed (check ADMIN_EMAIL / ADMIN_PASSWORD in Render Environment)"
+echo "Seeding mock data (clinics, services, therapists, admin)..."
+php artisan db:seed --force --no-interaction 2>&1 || echo "WARN: db:seed failed (see logs above)"
 
 echo "Starting server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
