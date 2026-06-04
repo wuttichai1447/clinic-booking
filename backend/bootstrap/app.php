@@ -57,9 +57,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]);
             });
 
-            Route::middleware('web')->group(function () {
+            Route::middleware('session')->group(function () {
                 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
-                Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
+                Route::post('/admin/login', [AuthController::class, 'login'])
+                    ->middleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class)
+                    ->name('admin.login.submit');
             });
         },
     )
