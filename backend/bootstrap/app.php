@@ -36,10 +36,13 @@ return Application::configure(basePath: dirname(__DIR__))
                         $appKeyStatus = $e->getMessage();
                     }
 
+                    $adminUser = User::where('role', 'admin')->first();
+
                     return response()->json([
                         'database' => 'ok',
                         'clinics' => Clinic::count(),
                         'admin_users' => User::whereIn('role', ['admin', 'staff'])->count(),
+                        'admin_email' => $adminUser?->email,
                         'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),
