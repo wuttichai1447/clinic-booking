@@ -18,6 +18,7 @@
                 @if (!empty($adminEmailHint))
                     อีเมลแอดมินในระบบ: <strong>{{ $adminEmailHint }}</strong>
                 @endif
+                <span class="block mt-1 text-amber-900">ไม่ใช่รหัส Gmail / <code>MAIL_PASSWORD</code> — ต้องเป็น <code>ADMIN_PASSWORD</code> เท่านั้น</span>
             </p>
             <p class="text-amber-800 text-xs mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
                 ถ้าเห็นหน้าดำข้อความ <strong>“WELCOME TO RENDER / APPLICATION LOADING”</strong> แปลว่าเซิร์ฟเวอร์ฟรีกำลังตื่น — รอ 30–60 วินาที แล้วกด refresh หรือเปิดลิงก์นี้ใหม่

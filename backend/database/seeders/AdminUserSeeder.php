@@ -9,14 +9,14 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL') ?: 'admin@booking.local'],
-            [
-                'name' => 'Admin',
-                'password' => env('ADMIN_PASSWORD') ?: 'password',
-                'role' => 'admin',
-                'phone' => null,
-            ]
-        );
+        $email = trim((string) (env('ADMIN_EMAIL') ?: 'admin@booking.local'));
+        $password = trim((string) (env('ADMIN_PASSWORD') ?: 'password'));
+
+        $user = User::firstOrNew(['email' => $email]);
+        $user->name = 'Admin';
+        $user->role = 'admin';
+        $user->phone = null;
+        $user->password = $password;
+        $user->save();
     }
 }
