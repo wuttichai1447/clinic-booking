@@ -6,17 +6,47 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin(): View
+    /**
+     * Render uses database/file session middleware unreliably; start session in-controller.
+     */
+    protected function ensureSession(Request $request): void
     {
+        if ($request->hasSession()) {
+            return;
+        }
+
+        $session = app('session');
+        $session->start();
+        $request->setLaravelSession($session->driver());
+    }
+
+    protected function validateCsrf(Request $request): void
+    {
+        $token = $request->input('_token');
+        if (! is_string($token) || ! hash_equals($request->session()->token(), $token)) {
+            throw ValidationException::withMessages([
+                'email' => 'เซสชันหมดอายุ กรุณารีเฟรชหน้าแล้วลองใหม่',
+            ]);
+        }
+    }
+
+    public function showLogin(Request $request): View
+    {
+        $this->ensureSession($request);
+
         return view('admin.login');
     }
 
     public function login(Request $request): RedirectResponse
     {
+        $this->ensureSession($request);
+        $this->validateCsrf($request);
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -40,6 +70,8 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        $this->ensureSession($request);
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

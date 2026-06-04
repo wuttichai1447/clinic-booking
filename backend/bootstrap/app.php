@@ -55,23 +55,21 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]);
             });
 
-            Route::middleware('admin.guest')->group(function () {
-                Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
-                Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
-            });
+            Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
+            Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: '*');
-        // EncryptCookies breaks on Render; session still works for admin auth
-        $middleware->web(remove: [
-            \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        ]);
-        $middleware->group('admin.guest', [
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
-        ]);
+        $middleware->web(
+            remove: [
+                \Illuminate\Cookie\Middleware\EncryptCookies::class,
+                \Illuminate\Session\Middleware\StartSession::class,
+            ],
+            append: [
+                \App\Http\Middleware\EnsureSessionStarted::class,
+            ],
+        );
         $middleware->redirectGuestsTo('/admin/login');
         $middleware->redirectUsersTo('/admin');
         // Rate limiting disabled on Render free tier (database/file cache caused HTTP 500)
@@ -85,6 +83,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'admin' => \App\Http\Middleware\EnsureAdminRole::class,
+            'session' => \App\Http\Middleware\EnsureSessionStarted::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
