@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Models\Clinic;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -42,6 +43,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
             });
 
+            // Render: web middleware breaks login page; serve GET without middleware stack
+            Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

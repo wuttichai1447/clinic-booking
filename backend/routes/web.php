@@ -43,14 +43,6 @@ Route::get('/internal/cron/reminders', function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
-        Route::get('login', [AuthController::class, 'showLogin'])
-            ->name('login')
-            ->withoutMiddleware([
-                'guest',
-                \Illuminate\Cookie\Middleware\EncryptCookies::class,
-                \Illuminate\Session\Middleware\StartSession::class,
-                \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            ]);
         Route::post('login', [AuthController::class, 'login'])->name('login.submit');
     });
 
