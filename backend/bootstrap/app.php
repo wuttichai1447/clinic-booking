@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     return response()->json([
                         'database' => 'ok',
                         'clinics' => Clinic::count(),
+                        'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
+                        'session_driver' => config('session.driver'),
+                        'cache_store' => config('cache.default'),
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([
