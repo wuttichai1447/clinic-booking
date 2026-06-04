@@ -64,15 +64,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@booking.local')],
-            [
-                'name' => 'Admin',
-                'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
-                'role' => 'admin',
-                'phone' => null,
-            ]
-        );
+        $this->call(AdminUserSeeder::class);
 
         Promotion::updateOrCreate(
             ['code' => 'WELCOME10'],

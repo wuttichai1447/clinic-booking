@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Models\Clinic;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -30,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     return response()->json([
                         'database' => 'ok',
                         'clinics' => Clinic::count(),
+                        'admin_users' => User::whereIn('role', ['admin', 'staff'])->count(),
                         'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),
@@ -55,8 +57,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]);
             });
 
-            Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
-            Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
+            Route::middleware('web')->group(function () {
+                Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
+                Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
+            });
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

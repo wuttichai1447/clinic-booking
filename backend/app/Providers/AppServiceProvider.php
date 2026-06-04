@@ -33,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
             config(['session.driver' => 'database']);
         }
 
+        $appUrl = (string) env('APP_URL', '');
+        if (str_starts_with($appUrl, 'https://')) {
+            config(['session.secure' => true]);
+        }
+
         Paginator::defaultView('vendor.pagination.admin');
 
         RateLimiter::for('api', function (Request $request) {
