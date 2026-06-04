@@ -14,5 +14,8 @@ php artisan storage:link 2>/dev/null || true
 mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/logs
 chmod -R 775 storage bootstrap/cache 2>/dev/null || true
 
+echo "Checking database connection..."
+php artisan db:show 2>&1 || echo "WARN: database connection check failed (see logs above)"
+
 echo "Starting server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
