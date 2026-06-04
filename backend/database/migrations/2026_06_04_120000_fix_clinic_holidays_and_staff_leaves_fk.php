@@ -4,10 +4,28 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * PostgreSQL: clinic/therapist IDs are strings, not UUIDs — recreate tables if FK types were wrong.
+ */
 return new class extends Migration
 {
     public function up(): void
     {
+        Schema::dropIfExists('clinic_holidays');
+        Schema::create('clinic_holidays', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('clinic_id')->nullable();
+            $table->foreign('clinic_id')->references('id')->on('clinics')->nullOnDelete();
+            $table->date('date');
+            $table->string('name')->nullable();
+            $table->timestamps();
+            $table->unique(['clinic_id', 'date']);
+        });
+
+        if (Schema::hasTable('staff_leaves')) {
+            Schema::dropIfExists('staff_leaves');
+        }
+
         Schema::create('staff_leaves', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('therapist_id');
@@ -24,6 +42,7 @@ return new class extends Migration
 
     public function down(): void
     {
+        Schema::dropIfExists('clinic_holidays');
         Schema::dropIfExists('staff_leaves');
     }
 };

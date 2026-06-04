@@ -45,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
                         'admin_email' => $adminUser?->email,
                         'admin_password_set' => filled(env('ADMIN_PASSWORD')),
                         'admin_password_len' => strlen(trim((string) env('ADMIN_PASSWORD', ''))),
+                        'clinic_holidays_table' => \Illuminate\Support\Facades\Schema::hasTable('clinic_holidays'),
+                        'staff_leaves_table' => \Illuminate\Support\Facades\Schema::hasTable('staff_leaves'),
                         'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),

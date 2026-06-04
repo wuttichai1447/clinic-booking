@@ -28,7 +28,8 @@ return new class extends Migration
 
         Schema::create('clinic_holidays', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('clinic_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('clinic_id')->nullable();
+            $table->foreign('clinic_id')->references('id')->on('clinics')->nullOnDelete();
             $table->date('date');
             $table->string('name')->nullable();
             $table->timestamps();
