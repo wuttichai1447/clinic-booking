@@ -19,6 +19,9 @@
                     อีเมลแอดมินในระบบ: <strong>{{ $adminEmailHint }}</strong>
                 @endif
             </p>
+            <p class="text-amber-800 text-xs mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                ถ้าเห็นหน้าดำข้อความ <strong>“WELCOME TO RENDER / APPLICATION LOADING”</strong> แปลว่าเซิร์ฟเวอร์ฟรีกำลังตื่น — รอ 30–60 วินาที แล้วกด refresh หรือเปิดลิงก์นี้ใหม่
+            </p>
         @endif
 
         <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-4">

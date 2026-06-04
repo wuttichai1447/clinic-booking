@@ -39,14 +39,18 @@ class AuthController extends Controller
         ]);
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            return back()->withErrors(['email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'])->onlyInput('email');
+            return redirect()->route('admin.login')
+                ->withErrors(['email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'])
+                ->onlyInput('email');
         }
 
         $user = Auth::user();
         if (! in_array($user->role, ['admin', 'staff'], true)) {
             Auth::logout();
 
-            return back()->withErrors(['email' => 'บัญชีนี้ไม่มีสิทธิ์เข้าแอดมิน'])->onlyInput('email');
+            return redirect()->route('admin.login')
+                ->withErrors(['email' => 'บัญชีนี้ไม่มีสิทธิ์เข้าแอดมิน'])
+                ->onlyInput('email');
         }
 
         $request->session()->regenerate();
