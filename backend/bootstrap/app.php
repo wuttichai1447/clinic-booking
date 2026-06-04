@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->redirectGuestsTo('/admin/login');
         $middleware->redirectUsersTo('/admin');
-        $middleware->throttleApi();
+        // Rate limiting disabled on Render free tier (database/file cache caused HTTP 500)
         // Public booking API is stateless JSON — no SPA session/CSRF on /api/v1/*
         $middleware->validateCsrfTokens(except: [
             'api/*',
