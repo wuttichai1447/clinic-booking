@@ -23,6 +23,22 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/health/db', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+
+        return response()->json([
+            'database' => 'ok',
+            'clinics' => \App\Models\Clinic::count(),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'database' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 Route::get('/internal/cron/reminders', function () {
     $key = request()->header('X-Cron-Key') ?? request('key');
     if (! filled(config('app.cron_key')) || ! hash_equals((string) config('app.cron_key'), (string) $key)) {

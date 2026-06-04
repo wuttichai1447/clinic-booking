@@ -6,7 +6,7 @@ cd /app
 # migrate runs via render.yaml preDeployCommand (faster health check on boot)
 php artisan storage:link 2>/dev/null || true
 
-php artisan config:cache
+# Do not config:cache — DATABASE_URL / secrets with special chars break cached config on Render
 # routes/web.php uses closures — route:cache would crash startup on Render
 php artisan view:cache
 
