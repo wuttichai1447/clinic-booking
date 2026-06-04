@@ -23,6 +23,7 @@ Route::get('/', function () {
         'frontend' => config('app.frontend_url'),
     ]);
 })->withoutMiddleware([
+    \Illuminate\Cookie\Middleware\EncryptCookies::class,
     \Illuminate\Session\Middleware\StartSession::class,
     \Illuminate\View\Middleware\ShareErrorsFromSession::class,
 ]);
