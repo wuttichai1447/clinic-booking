@@ -12,7 +12,7 @@
             เปิดที่ <strong>http://127.0.0.1:8000/admin/login</strong> เท่านั้น (อย่าใช้ <code>localhost</code> สลับกัน — จะได้ 419)
         </p>
 
-        <form method="POST" action="/admin/login" class="space-y-4">
+        <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-4">
             @csrf
             <div>
                 <label class="block text-sm font-medium mb-1">อีเมล</label>
