@@ -1,9 +1,9 @@
 FROM php:8.2-cli-alpine
 
 RUN apk add --no-cache \
-    git unzip libzip-dev postgresql-dev sqlite-dev icu-dev oniguruma-dev \
+    git unzip libzip-dev postgresql-dev sqlite-dev icu-dev icu-data-full oniguruma-dev \
     && docker-php-ext-install \
-        pdo_pgsql pdo_sqlite zip mbstring bcmath pcntl \
+        pdo_pgsql pdo_sqlite zip mbstring bcmath pcntl intl \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 WORKDIR /app
