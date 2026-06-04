@@ -6,10 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    protected function validateCsrf(Request $request): void
+    {
+        $token = $request->input('_token');
+        if (! is_string($token) || ! hash_equals($request->session()->token(), $token)) {
+            throw ValidationException::withMessages([
+                'email' => 'เซสชันหมดอายุ กรุณารีเฟรชหน้าแล้วลองใหม่',
+            ]);
+        }
+    }
+
     public function showLogin(Request $request): View
     {
         return view('admin.login');
@@ -17,6 +28,8 @@ class AuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        $this->validateCsrf($request);
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
