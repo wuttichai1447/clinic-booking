@@ -22,7 +22,10 @@ Route::get('/', function () {
         'api' => url('/api/v1'),
         'frontend' => config('app.frontend_url'),
     ]);
-});
+})->withoutMiddleware([
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+]);
 
 Route::get('/internal/cron/reminders', function () {
     $key = request()->header('X-Cron-Key') ?? request('key');
@@ -44,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('login')
             ->withoutMiddleware([
                 'guest',
+                \Illuminate\Cookie\Middleware\EncryptCookies::class,
                 \Illuminate\Session\Middleware\StartSession::class,
                 \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             ]);
