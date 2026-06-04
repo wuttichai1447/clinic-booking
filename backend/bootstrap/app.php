@@ -28,20 +28,12 @@ return Application::configure(basePath: dirname(__DIR__))
                         $sessionTest = $e->getMessage();
                     }
 
-                    $adminProbe = 'skipped';
+                    $appKeyStatus = 'unknown';
                     try {
-                        $wasDebug = config('app.debug');
-                        config(['app.debug' => true]);
-                        $probeRequest = \Illuminate\Http\Request::create('/admin', 'GET');
-                        $probeResponse = app()->handle($probeRequest);
-                        config(['app.debug' => $wasDebug]);
-                        if ($probeResponse->getStatusCode() === 500) {
-                            $adminProbe = trim(preg_replace('/\s+/', ' ', strip_tags(substr($probeResponse->getContent(), 0, 400))));
-                        } else {
-                            $adminProbe = $probeResponse->getStatusCode();
-                        }
+                        app('encrypter');
+                        $appKeyStatus = 'ok';
                     } catch (\Throwable $e) {
-                        $adminProbe = $e->getMessage();
+                        $appKeyStatus = $e->getMessage();
                     }
 
                     return response()->json([
@@ -52,7 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),
                         'session_test' => $sessionTest,
-                        'admin_probe' => $adminProbe,
+                        'app_key' => $appKeyStatus,
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([
@@ -86,9 +78,11 @@ return Application::configure(basePath: dirname(__DIR__))
             remove: [
                 \Illuminate\Cookie\Middleware\EncryptCookies::class,
                 \Illuminate\Session\Middleware\StartSession::class,
+                \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
             ],
             prepend: [
                 \App\Http\Middleware\EnsureSessionStarted::class,
+                \App\Http\Middleware\VerifyFormCsrf::class,
             ],
         );
         $middleware->redirectGuestsTo('/admin/login');
