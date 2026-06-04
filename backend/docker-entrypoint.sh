@@ -3,6 +3,11 @@ set -e
 
 cd /app
 
+if [ -z "$DATABASE_URL" ]; then
+  echo "FATAL: DATABASE_URL is not set. Add Neon connection string in Render Environment."
+  exit 1
+fi
+
 # migrate runs via render.yaml preDeployCommand (faster health check on boot)
 php artisan storage:link 2>/dev/null || true
 
