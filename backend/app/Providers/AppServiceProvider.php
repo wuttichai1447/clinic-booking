@@ -28,9 +28,9 @@ class AppServiceProvider extends ServiceProvider
         // Render: database cache breaks rate limiting; force array (ignore stale Render env)
         config(['cache.default' => 'array']);
 
-        // Cookie sessions work on Render (database session middleware was unreliable)
+        // Database sessions work via session(); avoid Laravel StartSession middleware on Render
         if (env('DATABASE_URL')) {
-            config(['session.driver' => 'cookie']);
+            config(['session.driver' => 'database']);
         }
 
         Paginator::defaultView('vendor.pagination.admin');
