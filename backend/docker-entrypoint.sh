@@ -10,6 +10,7 @@ fi
 
 # migrate runs via render.yaml preDeployCommand (faster health check on boot)
 php artisan storage:link 2>/dev/null || true
+php artisan view:clear 2>/dev/null || true
 
 mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/logs
 chmod -R 777 storage bootstrap/cache 2>/dev/null || true

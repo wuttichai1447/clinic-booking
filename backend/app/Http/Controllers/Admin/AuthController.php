@@ -10,9 +10,19 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin(): View
+    public function showLogin(): View|\Illuminate\Http\Response
     {
-        return view('admin.login');
+        try {
+            return view('admin.login');
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response(
+                'Login view error: '.$e->getMessage(),
+                500,
+                ['Content-Type' => 'text/plain; charset=UTF-8']
+            );
+        }
     }
 
     public function login(Request $request): RedirectResponse
