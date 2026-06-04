@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Render free tier: never use database cache (breaks API rate limiting)
-        config(['cache.default' => env('CACHE_STORE', 'array')]);
+        // Render: database cache breaks rate limiting; force array (ignore stale Render env)
+        config(['cache.default' => 'array']);
 
         // DB is available on Render; use database sessions (file sessions failed on ephemeral disk)
         if (env('DATABASE_URL')) {

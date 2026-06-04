@@ -18,12 +18,21 @@ return Application::configure(basePath: dirname(__DIR__))
                 try {
                     DB::connection()->getPdo();
 
+                    $sessionTest = 'skipped';
+                    try {
+                        session()->put('health_check', 1);
+                        $sessionTest = session()->get('health_check') === 1 ? 'ok' : 'fail';
+                    } catch (\Throwable $e) {
+                        $sessionTest = $e->getMessage();
+                    }
+
                     return response()->json([
                         'database' => 'ok',
                         'clinics' => Clinic::count(),
                         'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),
+                        'session_test' => $sessionTest,
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([
