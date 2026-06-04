@@ -18,5 +18,8 @@ chmod -R 777 storage bootstrap/cache 2>/dev/null || true
 echo "Checking database connection..."
 php artisan db:show 2>&1 || echo "WARN: database connection check failed (see logs above)"
 
+echo "Ensuring admin account exists..."
+php artisan db:seed --class=AdminUserSeeder --force --no-interaction 2>&1 || echo "WARN: AdminUserSeeder failed (check ADMIN_EMAIL / ADMIN_PASSWORD in Render Environment)"
+
 echo "Starting server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
