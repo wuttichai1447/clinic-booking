@@ -13,12 +13,6 @@ use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
 use App\Http\Controllers\Admin\TherapistController as AdminTherapistController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/web-session-test', function () {
-    return response()->json([
-        'ok' => true,
-        'session' => session()->getId(),
-    ]);
-});
 
 Route::get('/', function () {
     return response()->json([
@@ -48,7 +42,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AuthController::class, 'showLogin'])
             ->name('login')
-            ->withoutMiddleware(['guest']);
+            ->withoutMiddleware([
+                'guest',
+                \Illuminate\Session\Middleware\StartSession::class,
+                \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            ]);
         Route::post('login', [AuthController::class, 'login'])->name('login.submit');
     });
 

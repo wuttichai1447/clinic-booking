@@ -42,7 +42,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
             });
 
-            Route::get('/admin/ping', fn () => response()->json(['admin' => 'ok']));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
