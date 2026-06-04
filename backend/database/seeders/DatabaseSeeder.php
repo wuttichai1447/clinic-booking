@@ -12,9 +12,25 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    private function mockJson(string $file): array
+    {
+        $paths = [
+            database_path('seeders/data/'.$file),
+            base_path('../server/data/mock/'.$file),
+        ];
+
+        foreach ($paths as $path) {
+            if (is_readable($path)) {
+                return json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            }
+        }
+
+        throw new \RuntimeException("Mock data file not found: {$file}");
+    }
+
     public function run(): void
     {
-        $clinics = json_decode(file_get_contents(base_path('../server/data/mock/clinics.json')), true);
+        $clinics = $this->mockJson('clinics.json');
         foreach ($clinics as $c) {
             Clinic::updateOrCreate(['id' => $c['id']], [
                 'name' => $c['name'],
@@ -25,7 +41,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $services = json_decode(file_get_contents(base_path('../server/data/mock/services.json')), true);
+        $services = $this->mockJson('services.json');
         foreach ($services as $s) {
             Service::updateOrCreate(['id' => $s['id']], [
                 'name' => $s['name'],
@@ -37,7 +53,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $therapists = json_decode(file_get_contents(base_path('../server/data/mock/therapists.json')), true);
+        $therapists = $this->mockJson('therapists.json');
         foreach ($therapists as $t) {
             Therapist::updateOrCreate(['id' => $t['id']], [
                 'name' => $t['name'],

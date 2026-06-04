@@ -8,6 +8,7 @@ services:
     dockerContext: ./backend
     plan: free
     healthCheckPath: /up
+    healthCheckGracePeriod: 180
     envVars:
       - key: APP_ENV
         value: production
