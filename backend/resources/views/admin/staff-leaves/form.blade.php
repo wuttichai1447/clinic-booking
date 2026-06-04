@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('title', $leave->exists ? 'แก้ไขการลา' : 'บันทึกการลา')
 @section('content')
+<h1 class="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6">@yield('title')</h1>
 <form method="POST" action="{{ $leave->exists ? route('admin.staff-leaves.update', $leave) : route('admin.staff-leaves.store') }}" class="bg-white rounded-xl border p-6 max-w-xl space-y-4">
     @csrf
     @if ($leave->exists) @method('PUT') @endif
@@ -42,7 +43,10 @@
         <textarea name="note" rows="2" class="w-full border rounded-lg px-3 py-2 mt-1" placeholder="เช่น ลาติดตามญาติ">{{ old('note', $leave->note) }}</textarea>
     </div>
 
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
-    <a href="{{ route('admin.staff-leaves.index') }}" class="ml-2 text-slate-600 text-sm">ยกเลิก</a>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.staff-leaves.index'),
+        'submitLabel' => $leave->exists ? 'บันทึกการแก้ไข' : 'บันทึกการลา',
+        'cancelLabel' => 'ยกเลิกและกลับรายการลา',
+    ])
 </form>
 @endsection

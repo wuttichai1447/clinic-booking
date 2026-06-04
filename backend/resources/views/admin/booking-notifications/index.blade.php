@@ -15,7 +15,7 @@
         @if ($unreadCount > 0)
             <form method="POST" action="{{ route('admin.booking-notifications.read-all') }}">
                 @csrf
-                <button type="submit" class="text-sm border rounded-lg px-3 py-2 hover:bg-slate-50">อ่านทั้งหมด</button>
+                <button type="submit" class="text-sm border rounded-lg px-3 py-2 hover:bg-slate-50 font-medium">ทำเครื่องหมายว่าอ่านทั้งหมด</button>
             </form>
         @endif
         <a
@@ -45,14 +45,15 @@
             <p class="mt-2 text-sm text-slate-700 whitespace-pre-line">{{ $n->message }}</p>
             <div class="mt-3 flex flex-wrap gap-2">
                 @if ($n->appointment_id)
-                    <a href="{{ route('admin.appointments.edit', $n->appointment_id) }}" class="text-sm text-emerald-600 font-medium hover:underline">
-                        เปิดการจอง
+                    <a href="{{ route('admin.appointments.edit', $n->appointment_id) }}" class="inline-flex items-center gap-1 text-sm text-emerald-700 font-medium px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/70">
+                        <i data-lucide="external-link" class="size-3.5 shrink-0" aria-hidden="true"></i>
+                        เปิดรายการจอง
                     </a>
                 @endif
                 @if ($n->isUnread())
                     <form method="POST" action="{{ route('admin.booking-notifications.read', $n) }}" class="inline">
                         @csrf
-                        <button type="submit" class="text-sm text-slate-600 hover:text-slate-900">ทำเครื่องหมายว่าอ่านแล้ว</button>
+                        <button type="submit" class="text-sm text-slate-700 font-medium px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50">ทำเครื่องหมายว่าอ่านแล้ว</button>
                     </form>
                 @endif
             </div>

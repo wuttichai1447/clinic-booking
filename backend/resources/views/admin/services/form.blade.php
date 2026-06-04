@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('title', $service->exists ? 'แก้ไขบริการ' : 'เพิ่มบริการ')
 @section('content')
+<h1 class="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6">@yield('title')</h1>
 <form method="POST" action="{{ $service->exists ? route('admin.services.update', $service) : route('admin.services.store') }}"
       class="bg-white rounded-xl border p-6 max-w-xl space-y-4 shadow-sm">
     @csrf @if ($service->exists) @method('PUT') @endif
@@ -23,7 +24,10 @@
     <div><label class="text-sm font-medium">รูป URL</label>
         <input name="image" value="{{ old('image', $service->image) }}" class="w-full border rounded-lg px-3 py-2" type="url"></div>
     <label class="flex gap-2"><input type="checkbox" name="is_active" value="1" {{ old('is_active', $service->is_active) ? 'checked' : '' }}> เปิดใช้งาน</label>
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
-    <a href="{{ route('admin.services.index') }}" class="ml-3">ยกเลิก</a>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.services.index'),
+        'submitLabel' => $service->exists ? 'บันทึกการแก้ไข' : 'บันทึกบริการ',
+        'cancelLabel' => 'ยกเลิกและกลับรายการบริการ',
+    ])
 </form>
 @endsection

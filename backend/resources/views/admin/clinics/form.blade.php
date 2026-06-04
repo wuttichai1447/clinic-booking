@@ -21,9 +21,10 @@
     <div><label class="block text-sm font-medium mb-1">รูป (URL)</label>
         <input name="image" value="{{ old('image', $clinic->image) }}" class="w-full rounded-lg border px-3 py-2" type="url"></div>
     <label class="flex items-center gap-2"><input type="checkbox" name="is_active" value="1" {{ old('is_active', $clinic->is_active) ? 'checked' : '' }}> เปิดใช้งาน</label>
-    <div class="flex gap-3">
-        <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
-        <a href="{{ route('admin.clinics.index') }}" class="px-6 py-2 border rounded-lg">ยกเลิก</a>
-    </div>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.clinics.index'),
+        'submitLabel' => $clinic->exists ? 'บันทึกการแก้ไข' : 'บันทึกคลินิก',
+        'cancelLabel' => 'ยกเลิกและกลับรายการคลินิก',
+    ])
 </form>
 @endsection

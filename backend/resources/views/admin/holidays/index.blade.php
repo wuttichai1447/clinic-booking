@@ -6,7 +6,10 @@
         <h1 class="text-xl sm:text-2xl font-semibold">วันหยุดคลินิก</h1>
         <p class="text-sm text-slate-600 mt-1">วันที่ตรงกับรายการนี้จะไม่แสดงช่วงเวลาให้จอง (ทุกสาขา หรือเฉพาะคลินิก)</p>
     </div>
-    <a href="{{ route('admin.holidays.create') }}" class="inline-flex justify-center bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm">+ เพิ่มวันหยุด</a>
+    @include('admin.partials.page-add-button', [
+        'href' => route('admin.holidays.create'),
+        'label' => 'เพิ่มวันหยุด',
+    ])
 </div>
 
 <form method="GET" class="mb-4 flex flex-wrap gap-2 items-end">
@@ -41,6 +44,8 @@
                         @include('admin.partials.table-actions', [
                             'editUrl' => route('admin.holidays.edit', $h),
                             'deleteUrl' => route('admin.holidays.destroy', $h),
+                            'editLabel' => 'แก้ไข',
+                            'deleteLabel' => 'ลบ',
                             'deleteConfirm' => 'ลบวันหยุดนี้?',
                         ])
                     </td>

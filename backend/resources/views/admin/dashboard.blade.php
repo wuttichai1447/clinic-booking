@@ -91,6 +91,7 @@
             <div class="mt-3">
                 @include('admin.partials.table-actions', [
                     'editUrl' => route('admin.appointments.edit', $a),
+                    'editLabel' => 'แก้ไขการจอง',
                 ])
             </div>
         </div>
@@ -126,6 +127,7 @@
                         <td class="px-4 lg:px-5 py-3 text-right whitespace-nowrap">
                             @include('admin.partials.table-actions', [
                                 'editUrl' => route('admin.appointments.edit', $a),
+                                'editLabel' => 'แก้ไขการจอง',
                             ])
                         </td>
                     </tr>

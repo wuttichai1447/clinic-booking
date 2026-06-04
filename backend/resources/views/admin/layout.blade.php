@@ -18,6 +18,10 @@
     <style>
         [data-lucide] { stroke-width: 1.75; }
         .admin-nav-open { display: flex !important; }
+        .admin-table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen antialiased">
@@ -31,7 +35,8 @@
             <div class="flex items-center gap-2 shrink-0">
                 <form method="POST" action="{{ route('admin.logout') }}" class="hidden sm:inline">
                     @csrf
-                    <button type="submit" class="text-sm text-slate-300 hover:text-white px-2 py-1 rounded-md hover:bg-white/10 transition">
+                    <button type="submit" class="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-white px-2 py-1 rounded-md hover:bg-white/10 transition">
+                        <i data-lucide="log-out" class="size-4 shrink-0" aria-hidden="true"></i>
                         ออกจากระบบ
                     </button>
                 </form>
@@ -96,7 +101,7 @@
             <form method="POST" action="{{ route('admin.logout') }}" class="sm:hidden mt-1 pt-2 border-t border-white/10 w-full">
                 @csrf
                 <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition">
-                    <i data-lucide="log-out" class="size-4"></i>
+                    <i data-lucide="log-out" class="size-4 shrink-0" aria-hidden="true"></i>
                     ออกจากระบบ
                 </button>
             </form>

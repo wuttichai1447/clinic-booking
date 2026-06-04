@@ -127,10 +127,11 @@
         </div>
     </fieldset>
 
-    <div class="flex flex-wrap gap-3 pt-2">
-        <button type="submit" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-emerald-700">บันทึกการจอง</button>
-        <a href="{{ route('admin.appointments.index') }}" class="text-slate-600 text-sm py-2.5">ยกเลิก</a>
-    </div>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.appointments.index'),
+        'submitLabel' => 'บันทึกการจอง',
+        'cancelLabel' => 'ยกเลิกและกลับรายการจอง',
+    ])
 </form>
 @endsection
 

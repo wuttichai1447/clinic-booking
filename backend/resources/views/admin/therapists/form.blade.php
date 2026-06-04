@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('title', $therapist->exists ? 'แก้ไขนักบำบัด' : 'เพิ่มนักบำบัด')
 @section('content')
+<h1 class="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6">@yield('title')</h1>
 <form method="POST" action="{{ $therapist->exists ? route('admin.therapists.update', $therapist) : route('admin.therapists.store') }}"
       enctype="multipart/form-data"
       class="bg-white rounded-xl border p-4 sm:p-6 w-full max-w-xl space-y-4 shadow-sm">
@@ -27,6 +28,10 @@
     <div><label class="text-sm font-medium">หรือ รูป URL</label>
         <input name="image" value="{{ old('image', $therapist->image) }}" class="w-full border rounded-lg px-3 py-2" type="url" placeholder="https://..."></div>
     <label class="flex gap-2"><input type="checkbox" name="is_active" value="1" {{ old('is_active', $therapist->is_active) ? 'checked' : '' }}> เปิดใช้งาน</label>
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.therapists.index'),
+        'submitLabel' => $therapist->exists ? 'บันทึกการแก้ไข' : 'บันทึกนักบำบัด',
+        'cancelLabel' => 'ยกเลิกและกลับรายการนักบำบัด',
+    ])
 </form>
 @endsection

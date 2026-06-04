@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>@yield('title', 'แอดมิน') — ระบบจองคลินิก</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen">
 <main class="max-w-6xl mx-auto px-4 py-8">
@@ -19,5 +20,10 @@
     @endif
     @yield('content')
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.lucide) lucide.createIcons();
+    });
+</script>
 </body>
 </html>

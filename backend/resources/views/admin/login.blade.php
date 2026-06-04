@@ -29,8 +29,9 @@
                 จดจำการเข้าสู่ระบบ
             </label>
             <button type="submit"
-                    class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition">
-                เข้าสู่ระบบ
+                    class="w-full inline-flex justify-center items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition">
+                <i data-lucide="log-in" class="size-4 shrink-0" aria-hidden="true"></i>
+                เข้าสู่ระบบแอดมิน
             </button>
         </form>
     </div>

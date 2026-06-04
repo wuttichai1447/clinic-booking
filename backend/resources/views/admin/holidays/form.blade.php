@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('title', $holiday->exists ? 'แก้ไขวันหยุด' : 'เพิ่มวันหยุด')
 @section('content')
+<h1 class="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6">@yield('title')</h1>
 <form method="POST" action="{{ $holiday->exists ? route('admin.holidays.update', $holiday) : route('admin.holidays.store') }}" class="bg-white rounded-xl border p-6 max-w-xl space-y-4">
     @csrf
     @if ($holiday->exists) @method('PUT') @endif
@@ -25,7 +26,10 @@
         <input name="name" value="{{ old('name', $holiday->name) }}" class="w-full border rounded-lg px-3 py-2 mt-1" placeholder="เช่น วันสงกรานต์">
     </div>
 
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
-    <a href="{{ route('admin.holidays.index') }}" class="ml-2 text-slate-600 text-sm">ยกเลิก</a>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.holidays.index'),
+        'submitLabel' => $holiday->exists ? 'บันทึกการแก้ไข' : 'บันทึกวันหยุด',
+        'cancelLabel' => 'ยกเลิกและกลับรายการวันหยุด',
+    ])
 </form>
 @endsection

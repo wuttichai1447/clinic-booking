@@ -6,7 +6,10 @@
         <h1 class="text-xl sm:text-2xl font-semibold">ลานักบำบัด</h1>
         <p class="text-sm text-slate-600 mt-1">บันทึกวันลาของนักบำบัด — ช่วงวันที่ลาจะไม่แสดงเวลาว่างให้ลูกค้าจอง</p>
     </div>
-    <a href="{{ route('admin.staff-leaves.create') }}" class="inline-flex justify-center bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm">+ บันทึกการลา</a>
+    @include('admin.partials.page-add-button', [
+        'href' => route('admin.staff-leaves.create'),
+        'label' => 'บันทึกการลา',
+    ])
 </div>
 
 <form method="GET" class="mb-4 flex flex-wrap gap-3 items-end">
@@ -61,6 +64,8 @@
                         @include('admin.partials.table-actions', [
                             'editUrl' => route('admin.staff-leaves.edit', $row),
                             'deleteUrl' => route('admin.staff-leaves.destroy', $row),
+                            'editLabel' => 'แก้ไข',
+                            'deleteLabel' => 'ลบ',
                             'deleteConfirm' => 'ลบรายการลานี้?',
                         ])
                     </td>

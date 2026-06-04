@@ -30,9 +30,10 @@
 @if ($appointment->status === 'awaiting_verification')
     <form method="POST" action="{{ route('admin.appointments.confirm-payment', $appointment) }}" class="mb-6">
         @csrf
-        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium"
+        <button type="submit" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium"
                 onclick="return confirm('ยืนยันว่าได้รับเงินแล้ว?')">
-            ✓ ยืนยันการชำระเงิน (confirmed)
+            <i data-lucide="circle-check" class="size-4 shrink-0" aria-hidden="true"></i>
+            ยืนยันการชำระเงิน
         </button>
     </form>
 @endif
@@ -51,8 +52,11 @@
         <label class="text-sm font-medium">หมายเหตุ</label>
         <textarea name="notes" rows="3" class="w-full border rounded-lg px-3 py-2.5 mt-1">{{ old('notes', $appointment->notes) }}</textarea>
     </div>
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium">บันทึก</button>
-    <a href="{{ route('admin.appointments.index') }}" class="ml-3 text-sm text-slate-600 hover:underline">กลับ</a>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.appointments.index'),
+        'submitLabel' => 'บันทึกการเปลี่ยนแปลง',
+        'cancelLabel' => 'ยกเลิกและกลับรายการจอง',
+    ])
 </form>
 
 @if (!in_array($appointment->status, ['cancelled', 'completed']))
@@ -69,13 +73,19 @@
             <input type="text" name="time_slot_id" required class="w-full border rounded-lg px-3 py-2.5 mt-1 font-mono" value="{{ $appointment->time_slot_id }}" placeholder="09-00">
         </div>
     </div>
-    <button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium">เลื่อนนัด</button>
+    <button type="submit" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium">
+        <i data-lucide="calendar-clock" class="size-4 shrink-0" aria-hidden="true"></i>
+        ยืนยันเลื่อนนัด
+    </button>
 </form>
 
 <form method="POST" action="{{ route('admin.appointments.cancel', $appointment) }}" class="mt-4" onsubmit="return confirm('ยกเลิกการจองนี้?')">
     @csrf
     <input type="hidden" name="reason" value="ยกเลิกโดยแอดมิน">
-    <button type="submit" class="text-red-600 text-sm font-medium hover:underline">ยกเลิกการจอง</button>
+    <button type="submit" class="inline-flex items-center gap-2 text-red-700 text-sm font-medium px-4 py-2.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 transition">
+        <i data-lucide="ban" class="size-4 shrink-0" aria-hidden="true"></i>
+        ยกเลิกการจอง
+    </button>
 </form>
 @endif
 @endsection

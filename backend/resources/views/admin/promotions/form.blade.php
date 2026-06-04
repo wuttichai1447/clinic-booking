@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('title', $promotion->exists ? 'แก้ไขโปรโมชั่น' : 'เพิ่มโปรโมชั่น')
 @section('content')
+<h1 class="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6">@yield('title')</h1>
 <form method="POST" action="{{ $promotion->exists ? route('admin.promotions.update', $promotion) : route('admin.promotions.store') }}" class="bg-white rounded-xl border p-6 max-w-xl space-y-4">
     @csrf @if ($promotion->exists) @method('PUT') @endif
     <div><label class="text-sm font-medium">รหัส (CODE)</label><input name="code" value="{{ old('code', $promotion->code) }}" class="w-full border rounded-lg px-3 py-2 uppercase" required></div>
@@ -18,6 +19,10 @@
         <div><label class="text-sm font-medium">จำกัดจำนวนครั้ง</label><input type="number" name="max_uses" value="{{ old('max_uses', $promotion->max_uses) }}" class="w-full border rounded-lg px-3 py-2" placeholder="ว่าง = ไม่จำกัด"></div>
     </div>
     <label class="flex gap-2"><input type="checkbox" name="is_active" value="1" {{ old('is_active', $promotion->is_active) ? 'checked' : '' }}> เปิดใช้งาน</label>
-    <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded-lg">บันทึก</button>
+    @include('admin.partials.form-actions', [
+        'cancelUrl' => route('admin.promotions.index'),
+        'submitLabel' => $promotion->exists ? 'บันทึกการแก้ไข' : 'บันทึกโปรโมชั่น',
+        'cancelLabel' => 'ยกเลิกและกลับรายการโปรโมชั่น',
+    ])
 </form>
 @endsection

@@ -3,9 +3,10 @@
 @section('content')
 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5 sm:mb-6">
     <h1 class="text-xl sm:text-2xl font-semibold">การจอง</h1>
-    <a href="{{ route('admin.appointments.create') }}" class="inline-flex justify-center items-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-emerald-700">
-        + จองแทนลูกค้า
-    </a>
+    @include('admin.partials.page-add-button', [
+        'href' => route('admin.appointments.create'),
+        'label' => 'จองแทนลูกค้า',
+    ])
 </div>
 <form method="GET" class="flex flex-col sm:flex-row flex-wrap gap-3 mb-4 bg-white p-4 sm:p-5 rounded-xl border shadow-sm">
     <input name="phone" value="{{ $phone }}" placeholder="ค้นหาเบอร์โทร" class="w-full sm:flex-1 min-w-0 border rounded-lg px-3 py-2">
@@ -26,7 +27,7 @@
                 <th class="px-4 py-3">วันที่ / เวลา</th>
                 <th class="px-4 py-3">ยอด</th>
                 <th class="px-4 py-3">สถานะ</th>
-                <th class="px-4 py-3 w-24 text-right">จัดการ</th>
+                <th class="px-4 py-3 min-w-[9rem] text-right">การดำเนินการ</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +42,9 @@
                         @include('admin.partials.table-actions', [
                             'editUrl' => route('admin.appointments.edit', $a),
                             'deleteUrl' => route('admin.appointments.destroy', $a),
-                            'deleteConfirm' => 'ลบการจอง?',
+                            'editLabel' => 'แก้ไข',
+                            'deleteLabel' => 'ลบ',
+                            'deleteConfirm' => 'ลบการจองของ '.$a->customer_name.'?',
                         ])
                     </td>
                 </tr>

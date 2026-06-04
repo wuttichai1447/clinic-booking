@@ -3,7 +3,10 @@
 @section('content')
 <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-3 mb-5 sm:mb-6">
     <h1 class="text-xl sm:text-2xl font-semibold">โปรโมชั่น</h1>
-    <a href="{{ route('admin.promotions.create') }}" class="inline-flex justify-center bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm sm:text-base">+ เพิ่ม</a>
+    @include('admin.partials.page-add-button', [
+        'href' => route('admin.promotions.create'),
+        'label' => 'เพิ่มโปรโมชั่น',
+    ])
 </div>
 <div class="bg-white rounded-xl border overflow-x-auto shadow-sm">
     <table class="w-full text-sm min-w-[640px]">
@@ -22,6 +25,9 @@
                         @include('admin.partials.table-actions', [
                             'editUrl' => route('admin.promotions.edit', $p),
                             'deleteUrl' => route('admin.promotions.destroy', $p),
+                            'editLabel' => 'แก้ไข',
+                            'deleteLabel' => 'ลบ',
+                            'deleteConfirm' => 'ลบโปรโมชั่น '.$p->code.'?',
                         ])
                     </td>
                 </tr>

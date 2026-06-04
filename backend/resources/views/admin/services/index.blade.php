@@ -3,7 +3,10 @@
 @section('content')
 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
     <h1 class="text-2xl font-bold">บริการ</h1>
-    <a href="{{ route('admin.services.create') }}" class="bg-emerald-600 text-white px-4 py-2 rounded-lg">+ เพิ่ม</a>
+    @include('admin.partials.page-add-button', [
+        'href' => route('admin.services.create'),
+        'label' => 'เพิ่มบริการ',
+    ])
 </div>
 <form method="GET" class="mb-4 flex gap-2 items-end">
     <div>
@@ -16,21 +19,29 @@
         </select>
     </div>
 </form>
-<div class="bg-white rounded-xl border overflow-hidden shadow-sm">
-    <table class="w-full text-sm">
+<div class="bg-white rounded-xl border overflow-x-auto shadow-sm">
+    <table class="w-full text-sm min-w-[480px]">
         <thead class="bg-slate-50 text-left">
-            <tr><th class="px-4 py-3">ชื่อ</th><th class="px-4 py-3">คลินิก</th><th class="px-4 py-3">ราคา</th><th class="px-4 py-3"></th></tr>
+            <tr>
+                <th class="px-2 py-2.5 sm:px-4 sm:py-3">ชื่อ</th>
+                <th class="px-2 py-2.5 sm:px-4 sm:py-3">คลินิก</th>
+                <th class="px-2 py-2.5 sm:px-4 sm:py-3">ราคา</th>
+                <th class="px-2 py-2.5 sm:px-4 sm:py-3 min-w-[9rem] text-right sticky right-0 bg-slate-50 z-10 shadow-[-6px_0_8px_-6px_rgba(15,23,42,0.12)]">การดำเนินการ</th>
+            </tr>
         </thead>
         <tbody>
             @forelse ($services as $s)
                 <tr class="border-t">
-                    <td class="px-4 py-3">{{ $s->name }}</td>
-                    <td class="px-4 py-3">{{ $s->clinic?->name }}</td>
-                    <td class="px-4 py-3">฿{{ number_format($s->price) }}</td>
-                    <td class="px-4 py-3 text-right">
+                    <td class="px-2 py-2.5 sm:px-4 sm:py-3">{{ $s->name }}</td>
+                    <td class="px-2 py-2.5 sm:px-4 sm:py-3">{{ $s->clinic?->name }}</td>
+                    <td class="px-2 py-2.5 sm:px-4 sm:py-3 whitespace-nowrap">฿{{ number_format($s->price) }}</td>
+                    <td class="px-2 py-2.5 sm:px-4 sm:py-3 text-right whitespace-nowrap sticky right-0 bg-white z-10 shadow-[-6px_0_8px_-6px_rgba(15,23,42,0.08)]">
                         @include('admin.partials.table-actions', [
                             'editUrl' => route('admin.services.edit', $s),
                             'deleteUrl' => route('admin.services.destroy', $s),
+                            'editLabel' => 'แก้ไข',
+                            'deleteLabel' => 'ลบ',
+                            'deleteConfirm' => 'ลบบริการ '.$s->name.'?',
                         ])
                     </td>
                 </tr>
