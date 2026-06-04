@@ -43,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
                         'clinics' => Clinic::count(),
                         'admin_users' => User::whereIn('role', ['admin', 'staff'])->count(),
                         'admin_email' => $adminUser?->email,
+                        'admin_password_set' => filled(env('ADMIN_PASSWORD')),
                         'sessions_table' => \Illuminate\Support\Facades\Schema::hasTable('sessions'),
                         'session_driver' => config('session.driver'),
                         'cache_store' => config('cache.default'),

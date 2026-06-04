@@ -10,10 +10,10 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@booking.local')],
+            ['email' => env('ADMIN_EMAIL') ?: 'admin@booking.local'],
             [
                 'name' => 'Admin',
-                'password' => env('ADMIN_PASSWORD', 'password'),
+                'password' => env('ADMIN_PASSWORD') ?: 'password',
                 'role' => 'admin',
                 'phone' => null,
             ]
