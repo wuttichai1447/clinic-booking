@@ -6,11 +6,18 @@
 <div class="max-w-md mx-auto mt-8 sm:mt-16 px-1">
     <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-slate-200">
         <h1 class="text-xl sm:text-2xl font-bold mb-2">เข้าสู่ระบบแอดมิน</h1>
-        <p class="text-slate-500 text-sm mb-2">บัญชีแอดมิน (ไม่ใช่บัญชีลูกค้า)</p>
-        <p class="text-slate-500 text-xs mb-6 font-mono">admin@booking.local / password</p>
-        <p class="text-amber-700 text-xs mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-            เปิดที่ <strong>http://127.0.0.1:8000/admin/login</strong> เท่านั้น (อย่าใช้ <code>localhost</code> สลับกัน — จะได้ 419)
-        </p>
+        <p class="text-slate-500 text-sm mb-4">บัญชีแอดมิน (ไม่ใช่บัญชีลูกค้า)</p>
+        @if (app()->environment('local'))
+            <p class="text-slate-500 text-xs mb-4 font-mono">ทดสอบ local: admin@booking.local / password</p>
+            <p class="text-amber-700 text-xs mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                เปิดที่ <strong>http://127.0.0.1:8000/admin/login</strong> เท่านั้น (อย่าใช้ <code>localhost</code> สลับกัน — จะได้ 419)
+            </p>
+        @else
+            <p class="text-sky-800 text-xs mb-4 bg-sky-50 border border-sky-200 rounded-lg px-3 py-2">
+                ใช้อีเมลและรหัสผ่านที่ตั้งใน <strong>Render → Environment</strong> (<code>ADMIN_EMAIL</code> / <code>ADMIN_PASSWORD</code>)
+                หลัง deploy ครั้งแรกรัน <code>php artisan db:seed</code> ใน Render Shell
+            </p>
+        @endif
 
         <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-4">
             @csrf
