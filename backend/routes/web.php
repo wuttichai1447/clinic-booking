@@ -14,20 +14,6 @@ use App\Http\Controllers\Admin\TherapistController as AdminTherapistController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return response()->json([
-        'name' => 'Clinic Booking API',
-        'version' => '1.0',
-        'admin' => url('/admin'),
-        'api' => url('/api/v1'),
-        'frontend' => config('app.frontend_url'),
-    ]);
-})->withoutMiddleware([
-    \Illuminate\Cookie\Middleware\EncryptCookies::class,
-    \Illuminate\Session\Middleware\StartSession::class,
-    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-]);
-
 Route::get('/internal/cron/reminders', function () {
     $key = request()->header('X-Cron-Key') ?? request('key');
     if (! filled(config('app.cron_key')) || ! hash_equals((string) config('app.cron_key'), (string) $key)) {

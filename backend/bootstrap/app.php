@@ -43,7 +43,18 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
             });
 
-            // Render: web middleware breaks login page; serve GET without middleware stack
+            // Render: web middleware breaks some pages; serve without middleware stack
+            Route::get('/', function () {
+                return response()->json([
+                    'name' => 'Clinic Booking API',
+                    'version' => '1.0',
+                    'health' => url('/up'),
+                    'admin' => url('/admin/login'),
+                    'api' => url('/api/v1'),
+                    'frontend' => config('app.frontend_url'),
+                ]);
+            });
+
             Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
         },
     )
