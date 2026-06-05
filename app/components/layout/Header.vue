@@ -68,7 +68,10 @@ const navLinkClass = (path: string) =>
         class="flex items-center gap-2 min-w-0 shrink-0 group"
       >
         <span class="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary">
-          <UIcon name="i-lucide-stethoscope" class="size-4" />
+          <UIcon
+            name="i-lucide-stethoscope"
+            class="size-4"
+          />
         </span>
         <span class="truncate text-sm sm:text-base font-bold text-foreground group-hover:text-primary transition-colors">
           ระบบจองคลินิก
@@ -76,16 +79,35 @@ const navLinkClass = (path: string) =>
       </NuxtLink>
 
       <nav class="hidden md:flex flex-1 items-center justify-center gap-0.5">
-        <NuxtLink to="/" :class="navLinkClass('/')">
-          <UIcon name="i-lucide-calendar-plus" class="size-4 opacity-70" />
+        <NuxtLink
+          to="/"
+          :class="navLinkClass('/')"
+        >
+          <UIcon
+            name="i-lucide-calendar-plus"
+            class="size-4 opacity-70"
+          />
           จอง
+        </NuxtLink>
+        <NuxtLink
+          to="/help"
+          :class="navLinkClass('/help')"
+        >
+          <UIcon
+            name="i-lucide-circle-help"
+            class="size-4 opacity-70"
+          />
+          คู่มือ
         </NuxtLink>
         <NuxtLink
           v-if="authStore.ready && authStore.isLoggedIn"
           to="/my-bookings"
           :class="navLinkClass('/my-bookings')"
         >
-          <UIcon name="i-lucide-clipboard-list" class="size-4 opacity-70" />
+          <UIcon
+            name="i-lucide-clipboard-list"
+            class="size-4 opacity-70"
+          />
           การจองของฉัน
         </NuxtLink>
       </nav>
@@ -109,10 +131,17 @@ const navLinkClass = (path: string) =>
           </UDropdownMenu>
         </template>
         <template v-else-if="authStore.ready">
-          <NuxtLink to="/login" :class="navLinkClass('/login')">
+          <NuxtLink
+            to="/login"
+            :class="navLinkClass('/login')"
+          >
             เข้าสู่ระบบ
           </NuxtLink>
-          <UButton to="/register" size="sm" color="primary">
+          <UButton
+            to="/register"
+            size="sm"
+            color="primary"
+          >
             สมัครสมาชิก
           </UButton>
         </template>
@@ -158,8 +187,22 @@ const navLinkClass = (path: string) =>
           class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
           :class="linkClass('/')"
         >
-          <UIcon name="i-lucide-calendar-plus" class="size-4 shrink-0" />
+          <UIcon
+            name="i-lucide-calendar-plus"
+            class="size-4 shrink-0"
+          />
           จองนัดหมาย
+        </NuxtLink>
+        <NuxtLink
+          to="/help"
+          class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
+          :class="linkClass('/help')"
+        >
+          <UIcon
+            name="i-lucide-circle-help"
+            class="size-4 shrink-0"
+          />
+          คู่มือผู้ใช้
         </NuxtLink>
         <NuxtLink
           v-if="authStore.ready && authStore.isLoggedIn"
@@ -167,7 +210,10 @@ const navLinkClass = (path: string) =>
           class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
           :class="linkClass('/my-bookings')"
         >
-          <UIcon name="i-lucide-list-checks" class="size-4 shrink-0" />
+          <UIcon
+            name="i-lucide-list-checks"
+            class="size-4 shrink-0"
+          />
           การจองของฉัน
         </NuxtLink>
         <NuxtLink
@@ -176,7 +222,10 @@ const navLinkClass = (path: string) =>
           class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
           :class="linkClass('/profile')"
         >
-          <UIcon name="i-lucide-user" class="size-4 shrink-0" />
+          <UIcon
+            name="i-lucide-user"
+            class="size-4 shrink-0"
+          />
           โปรไฟล์
         </NuxtLink>
         <template v-if="authStore.ready && authStore.isLoggedIn">
@@ -185,7 +234,10 @@ const navLinkClass = (path: string) =>
             class="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-left text-error hover:bg-error/10 transition-colors"
             @click="onLogout"
           >
-            <UIcon name="i-lucide-log-out" class="size-4 shrink-0" />
+            <UIcon
+              name="i-lucide-log-out"
+              class="size-4 shrink-0"
+            />
             ออกจากระบบ
           </button>
         </template>
@@ -195,7 +247,10 @@ const navLinkClass = (path: string) =>
             class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
             :class="linkClass('/login')"
           >
-            <UIcon name="i-lucide-log-in" class="size-4 shrink-0" />
+            <UIcon
+              name="i-lucide-log-in"
+              class="size-4 shrink-0"
+            />
             เข้าสู่ระบบ
           </NuxtLink>
           <NuxtLink
@@ -203,7 +258,10 @@ const navLinkClass = (path: string) =>
             class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors"
             :class="linkClass('/register')"
           >
-            <UIcon name="i-lucide-user-plus" class="size-4 shrink-0" />
+            <UIcon
+              name="i-lucide-user-plus"
+              class="size-4 shrink-0"
+            />
             สมัครสมาชิก
           </NuxtLink>
         </template>
@@ -211,7 +269,10 @@ const navLinkClass = (path: string) =>
           href="/admin/login"
           class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted hover:bg-muted/50 transition-colors"
         >
-          <UIcon name="i-lucide-shield" class="size-4 shrink-0" />
+          <UIcon
+            name="i-lucide-shield"
+            class="size-4 shrink-0"
+          />
           แอดมิน
         </a>
       </nav>

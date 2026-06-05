@@ -56,6 +56,8 @@ return Application::configure(basePath: dirname(__DIR__))
                         'frontend_ready' => filled(config('app.frontend_url'))
                             && ! preg_match('#placeholder\.#i', (string) config('app.frontend_url'))
                             && (! app()->environment('production') || ! preg_match('#localhost|127\.0\.0\.1#i', (string) config('app.frontend_url'))),
+                        'google_oauth' => filled(config('services.google.client_id')) && filled(config('services.google.client_secret')),
+                        'google_redirect_set' => filled(config('services.google.redirect')),
                     ]);
                 } catch (\Throwable $e) {
                     return response()->json([
@@ -77,7 +79,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]);
             });
 
-            Route::middleware(['session', \Illuminate\View\Middleware\ShareErrorsFromSession::class])->group(function () {
+            Route::middleware([
+                \App\Http\Middleware\TrustForwardedHost::class,
+                'session',
+                \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            ])->group(function () {
                 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
                 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
             });
@@ -92,6 +98,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
             ],
             prepend: [
+                \App\Http\Middleware\TrustForwardedHost::class,
                 \App\Http\Middleware\EnsureSessionStarted::class,
                 \App\Http\Middleware\VerifyFormCsrf::class,
             ],

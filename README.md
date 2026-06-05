@@ -1,60 +1,47 @@
-# Nuxt Starter Template
+# Clinic Booking (Nuxt + Laravel)
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+โปรเจกต์จองคิวคลินิกแบบ Full‑Stack:
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+- **Frontend**: Nuxt (อยู่ที่ `app/`) — หน้าจอง, ชำระเงิน, โปรไฟล์/การจองของฉัน
+- **Backend**: Laravel (อยู่ที่ `backend/`) — REST API (`/api/v1/*`) + **Admin (Blade)** (`/admin/login`)
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+## เอกสาร
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png" width="830" height="466">
-  </picture>
-</a>
+- `docs/SETUP.md` — รัน Local (Backend + Frontend)
+- `docs/ENV.md` — รายการ Environment Variables ที่ใช้จริง
+- `docs/ADMIN.md` — คู่มือแอดมิน + ปัญหาที่พบบ่อย
+- `docs/API.md` — สรุป API endpoints
+- `docs/DEPLOYMENT.md` — Deploy (Vercel + Render + Neon)
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+เอกสารฉบับยาวเดิม:
 
-## Quick Start
+- `FULLSTACK.md`
+- `DEPLOY-VERCEL.md`
 
-```bash [Terminal]
-npm create nuxt@latest -- -t github:nuxt-ui-templates/starter
+## Quick start (Local)
+
+### Backend (Laravel)
+
+```powershell
+cd backend
+composer install
+copy .env.example .env
+php artisan key:generate
+New-Item -ItemType File -Path database\database.sqlite -Force
+php artisan migrate --seed
+php artisan serve
 ```
 
-## Deploy your own
+### Frontend (Nuxt)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
+```powershell
+# ที่ root โปรเจกต์
 pnpm install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
+copy .env.example .env
 pnpm dev
 ```
 
-## Production
+## Security / ข้อควรระวัง
 
-Build the application for production:
-
-```bash
-pnpm build
-```
-
-Locally preview production build:
-
-```bash
-pnpm preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **ห้าม commit ไฟล์ `.env`** (ทั้ง root และ `backend/.env`) เพราะมี secrets
+- ไฟล์ cache เช่น `backend/storage/framework/views/*` ไม่ควรอยู่ใน git (ถูก ignore แล้วใน `backend/.gitignore`)

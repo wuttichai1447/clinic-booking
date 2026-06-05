@@ -13,9 +13,9 @@ export default defineNuxtConfig({
     }
   ],
 
-    devtools: {
-        enabled: process.env.NODE_ENV === 'development'
-    },
+  devtools: {
+    enabled: process.env.NODE_ENV === 'development'
+  },
 
   css: ['~/assets/css/main.css'],
 
@@ -29,16 +29,17 @@ export default defineNuxtConfig({
     }
   },
 
+  build: {
+    transpile: ['vue']
+  },
+
   routeRules: {
     '/': { ssr: true },
     // Proxy API ทั้ง SSR และ browser — ไม่ให้ Vue Router จับ path /api/v1/*
     '/api/v1/**': {
       proxy: `${process.env.NUXT_API_BACKEND || 'http://127.0.0.1:8000/api/v1'}/**`
     },
-    // แอดมิน Blade อยู่ที่ Laravel — เปิดผ่าน localhost:3000/admin ได้
-    '/admin/**': {
-      proxy: `${(process.env.NUXT_LARAVEL_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')}/admin/**`
-    },
+    // แอดมิน Blade — proxy ผ่าน server/middleware/admin-proxy.ts (รองรับ session บน Vercel)
     // รูปที่อัปโหลดใน Laravel (storage/app/public)
     '/storage/**': {
       proxy: `${(process.env.NUXT_LARAVEL_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')}/storage/**`
@@ -56,10 +57,6 @@ export default defineNuxtConfig({
       // Stripe.js เป็น browser-only — อย่า bundle ตอน SSR (กัน dev timeout 60s)
       external: ['@stripe/stripe-js']
     }
-  },
-
-  build: {
-    transpile: ['vue']
   },
 
   eslint: {
