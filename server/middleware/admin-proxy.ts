@@ -58,7 +58,13 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, response.status)
 
     const frontendOrigin = requestUrl.origin
-    const skipHeaders = new Set(['set-cookie', 'transfer-encoding', 'connection', 'content-encoding'])
+    const skipHeaders = new Set([
+      'set-cookie',
+      'transfer-encoding',
+      'connection',
+      'content-encoding',
+      'content-length'
+    ])
 
     const setCookies = typeof response.headers.getSetCookie === 'function'
       ? response.headers.getSetCookie()
@@ -86,7 +92,8 @@ export default defineEventHandler(async (event) => {
       setResponseHeader(event, lower, value)
     }
 
-    return await response.arrayBuffer()
+    // ArrayBuffer serializes to "{}" on Vercel — return text for Blade HTML
+    return await response.text()
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Admin proxy failed'
     setResponseStatus(event, 502)
