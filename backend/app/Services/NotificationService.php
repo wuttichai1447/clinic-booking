@@ -208,27 +208,45 @@ class NotificationService
             return;
         }
 
-        if ($this->smsGateway->isConfigured() && $this->smsGateway->send($phone, $text)) {
-            return;
-        }
+        try {
+            if ($this->smsGateway->isConfigured() && $this->smsGateway->send($phone, $text)) {
+                return;
+            }
 
-        Log::channel('single')->info('[SMS] '.$phone.' — '.$text);
+            $this->log('[SMS] '.$phone.' — '.$text);
+        } catch (\Throwable $e) {
+            Log::warning('pushToCustomer failed', ['error' => $e->getMessage()]);
+        }
     }
 
     protected function pushToAdmin(string $message): void
     {
-        if ($this->telegram->isConfigured()) {
-            $this->telegram->send($message);
+        try {
+            if ($this->telegram->isConfigured()) {
+                $this->telegram->send($message);
 
-            return;
+                return;
+            }
+
+            if ($this->ntfy->isConfigured()) {
+                $this->ntfy->send($message, 'ระบบจองคลินิก');
+
+                return;
+            }
+
+            $this->log('[Admin notify] '.$message);
+        } catch (\Throwable $e) {
+            Log::warning('pushToAdmin failed', ['error' => $e->getMessage()]);
         }
+    }
 
-        if ($this->ntfy->isConfigured()) {
-            $this->ntfy->send($message, 'ระบบจองคลินิก');
-
-            return;
+    /** เขียน log แบบปลอดภัย — ใช้ default channel แทน 'single' ที่อาจเขียนไฟล์ไม่ได้บางโฮสต์ */
+    protected function log(string $message): void
+    {
+        try {
+            Log::info($message);
+        } catch (\Throwable) {
+            // ไม่ให้ log ที่ล้มเหลวทำให้ flow หลักพัง
         }
-
-        Log::channel('single')->info('[Admin notify] '.$message);
     }
 }
