@@ -46,8 +46,10 @@ services:
         sync: false
       - key: PAYMENT_DEV_MODE
         value: "true"
+      # Render free tier บล็อก outbound SMTP — ใช้ log เพื่อไม่ให้การจอง/ชำระเงินค้าง
+      # ถ้าต้องการส่งอีเมลจริง ใช้ผู้ให้บริการแบบ HTTP API (เช่น Resend/Brevo) แทน SMTP
       - key: MAIL_MAILER
-        value: smtp
+        value: log
       - key: MAIL_HOST
         sync: false
       - key: MAIL_PORT

@@ -146,8 +146,7 @@ class PaymentService
         }
 
         $appointment = $this->markPaid($appointment, $payment);
-        $this->notify->paymentConfirmed($appointment);
-        SubmitAppointmentToPartnersJob::dispatch($appointment->id);
+        $this->afterPaymentConfirmed($appointment);
 
         return $appointment;
     }
@@ -165,8 +164,7 @@ class PaymentService
         }
 
         $appointment = $this->markPaid($appointment, $payment);
-        $this->notify->paymentConfirmed($appointment);
-        SubmitAppointmentToPartnersJob::dispatch($appointment->id);
+        $this->afterPaymentConfirmed($appointment);
     }
 
     public function handlePaymentIntentFailed(string $paymentIntentId): void
@@ -217,8 +215,7 @@ class PaymentService
             ->firstOrFail();
 
         $appointment = $this->markPaid($appointment, $payment);
-        $this->notify->paymentConfirmed($appointment);
-        SubmitAppointmentToPartnersJob::dispatch($appointment->id);
+        $this->afterPaymentConfirmed($appointment);
 
         return $appointment->load(['clinic', 'service', 'therapist', 'promotion']);
     }
@@ -242,10 +239,34 @@ class PaymentService
         }
 
         $appointment = $this->markPaid($appointment, $payment, $method);
-        $this->notify->paymentConfirmed($appointment);
-        SubmitAppointmentToPartnersJob::dispatch($appointment->id);
+        $this->afterPaymentConfirmed($appointment);
 
         return $appointment;
+    }
+
+    /**
+     * แจ้งเตือน + ส่งต่อพาร์ตเนอร์ หลังการชำระเงินสำเร็จ
+     * ครอบ try/catch เพื่อไม่ให้ side-effect (เช่น SMTP ที่ถูกบล็อก) ทำให้การชำระเงินล้มเหลว
+     */
+    protected function afterPaymentConfirmed(Appointment $appointment): void
+    {
+        try {
+            $this->notify->paymentConfirmed($appointment);
+        } catch (\Throwable $e) {
+            Log::warning('paymentConfirmed notification failed', [
+                'appointment' => $appointment->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        try {
+            SubmitAppointmentToPartnersJob::dispatch($appointment->id);
+        } catch (\Throwable $e) {
+            Log::warning('partners dispatch failed', [
+                'appointment' => $appointment->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     protected function markPaid(Appointment $appointment, Payment $payment, ?string $method = null): Appointment
