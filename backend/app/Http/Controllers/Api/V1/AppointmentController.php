@@ -126,7 +126,12 @@ class AppointmentController extends Controller
         }
 
         $appointment->load('promotion');
-        $this->notify->bookingCreated($appointment);
+
+        // ส่งอีเมล/แจ้งเตือนหลังตอบกลับลูกค้า เพื่อไม่ให้การจองค้างหาก SMTP ช้า/ถูกบล็อก
+        $notify = $this->notify;
+        app()->terminating(function () use ($notify, $appointment) {
+            $notify->bookingCreated($appointment);
+        });
 
         return response()->json($appointment->toApiArray(), 201);
     }
