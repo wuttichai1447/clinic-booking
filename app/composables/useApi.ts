@@ -22,15 +22,20 @@ export function useApi() {
   async function get<T>(path: string, params?: Record<string, string | undefined>): Promise<T> {
     const filtered = params
       ? Object.fromEntries(
-          Object.entries(params).filter(([, v]) => v != null)
-        ) as Record<string, string>
+        Object.entries(params).filter(([, v]) => v != null)
+      ) as Record<string, string>
       : undefined
     const url = filtered
       ? `${BASE_URL}${path}?${new URLSearchParams(filtered).toString()}`
       : `${BASE_URL}${path}`
 
     try {
-      return (await $fetch(url, { headers: buildHeaders(), timeout: 15_000 })) as T
+      return (await $fetch(url, {
+        headers: buildHeaders(),
+        timeout: 30_000,
+        retry: 2,
+        retryDelay: 2_000
+      })) as T
     } catch (error) {
       throw new Error(parseApiError(error))
     }
@@ -42,7 +47,8 @@ export function useApi() {
         method: 'POST',
         headers: buildHeaders(),
         body,
-        timeout: 15_000
+        // Render free tier "cold start" อาจใช้เวลาปลุกเซิร์ฟเวอร์ 30-60 วินาที
+        timeout: 60_000
       })) as T
     } catch (error) {
       throw new Error(parseApiError(error))
@@ -60,7 +66,7 @@ export function useApi() {
         method: 'POST',
         headers,
         body: formData,
-        timeout: 30_000
+        timeout: 60_000
       })) as T
     } catch (error) {
       throw new Error(parseApiError(error))
@@ -73,7 +79,7 @@ export function useApi() {
         method: 'PATCH',
         headers: buildHeaders(),
         body,
-        timeout: 15_000
+        timeout: 30_000
       })) as T
     } catch (error) {
       throw new Error(parseApiError(error))
